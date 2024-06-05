@@ -1,4 +1,4 @@
-// --> YOUR NAME here
+// Kim, Joonbeom
 // Few comments describing the class Points2D
 
 #ifndef CSCI335_HOMEWORK1_POINTS2D_H_
