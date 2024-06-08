@@ -14,16 +14,18 @@ namespace teaching_project {
 
 // Place comments that provide a brief explanation of the class,
 // and its sample usage.
-template<typename Object>
+template<typename T>
 class Points2D {
   public:
     // Default "big five" -- you have to alter them for your assignment.
     // That means that you will remove the "= default" statement.
-    //  and you will provide an implementation.
+    // and you will provide an implementation.
 
     // Zero-parameter constructor.
     // Set size to 0.
-    Points2D() = default;
+    Points2D(){
+
+    }
 
     // Copy-constructor.
     Points2D(const Points2D &rhs) = default;
@@ -50,7 +52,7 @@ class Points2D {
     // End of big-five.
 
     // One parameter constructor.
-    Points2D(const std::array<Object, 2>& item) {
+    Points2D(const std::array<T, 2>& item) {
         // Provide code.
     }
 
@@ -62,7 +64,7 @@ class Points2D {
     // @returns the point at @location.
     // const version.
     // abort() if out-of-range.
-    const std::array<Object, 2>& operator[](size_t location) const {
+    const std::array<T, 2>& operator[](size_t location) const {
         // Code missing.
     }
 
@@ -87,7 +89,7 @@ class Points2D {
 
   private:
     // Sequence of points.
-    std::array<Object, 2> *sequence_;
+    std::array<T, 2> *sequence_;
     // Size of sequence.
     size_t size_;
 };
