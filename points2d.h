@@ -23,13 +23,18 @@ class Points2D {
 
     // Zero-parameter constructor.
     // Set size to 0.
-    Points2D(){
-
-    }
+    Points2D(): size_{0}, sequence_{nullptr}{};
 
     // Copy-constructor.
-    Points2D(const Points2D &rhs) = default;
+    Points2D(const Points2D &rhs){
+        cout << "copy constructor is called" << endl;
+        size_ = rhs.size_;
 
+        sequence_ = new std::array<T, 2>[size_];
+        for (int i = 0; i < size_; i++){
+            sequence_[i] = rhs.sequence_[i];
+        }
+    };
     // Copy-assignment. If you have already written
     // the copy-constructor and the move-constructor
     // you can just use:
@@ -38,16 +43,50 @@ class Points2D {
     // std::swap(*this, copy);
     // return *this;
     // }
-    Points2D& operator=(const Points2D &rhs) = default;
+    Points2D& operator=(const Points2D &rhs){
+        cout << "copy assignment is called" << endl;
+        Points2D copy = rhs;            // creating a copy constructor of rhs
+        std::swap(*this, copy);         // swap the original address to copy constructor's address. now original address has rhs's address
+        return *this;                   // return the swapped address, which is the address of copy or rhs
+    };
+        // if(&rhs != this){
+        //     size_ = rhs.size_;
+
+        //     delete[] sequence_;
+        //     sequence_ = new std::array<T, 2>[rhs.size_];
+        //     for(int i = 0; i < size_; i++){
+        //         sequence_[i] = rhs.sequence_[i];
+        //     }
+        // }
+        // return *this;
+
 
     // Move-constructor.
-    Points2D(Points2D &&rhs) = default;
+    Points2D(Points2D &&rhs){
+        cout << "move constructor is called" << endl;
+
+        size_ = rhs.size_;
+        sequence_ = rhs.sequence_;
+
+        rhs.size_ = 0;
+        rhs.sequence_ = nullptr;
+    };
 
     // Move-assignment.
     // Just use std::swap() for all variables.
-    Points2D& operator=(Points2D &&rhs) = default;
+    Points2D& operator=(Points2D &&rhs){
+        cout << "move assignment is called" << endl;
+        if(&rhs != this){
+        std::swap(size_, rhs.size_);
+        std::swap(sequence_, rhs.sequence_);
+        }
+        return *this;
+    };
 
-    ~Points2D() = default;
+    ~Points2D(){
+        cout << "destructor is called" << endl;
+        delete[] sequence_;
+    };
 
     // End of big-five.
 
