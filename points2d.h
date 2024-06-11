@@ -23,11 +23,11 @@ class Points2D {
 
     // Zero-parameter constructor.
     // Set size to 0.
-    Points2D(): size_{0}, sequence_{nullptr}{};
+    Points2D() : size_{0}, sequence_{nullptr}{}
 
     // Copy-constructor.
     Points2D(const Points2D &rhs){
-        cout << "copy constructor is called" << endl;
+        std::cout << "copy constructor is called" << std::endl;
         size_ = rhs.size_;
 
         sequence_ = new std::array<T, 2>[size_];
@@ -44,7 +44,7 @@ class Points2D {
     // return *this;
     // }
     Points2D& operator=(const Points2D &rhs){
-        cout << "copy assignment is called" << endl;
+        std::cout << "copy assignment is called" << std::endl;
         Points2D copy = rhs;            // creating a copy constructor of rhs
         std::swap(*this, copy);         // swap the original address to copy constructor's address. now original address has rhs's address
         return *this;                   // return the swapped address, which is the address of copy or rhs
@@ -63,7 +63,7 @@ class Points2D {
 
     // Move-constructor.
     Points2D(Points2D &&rhs){
-        cout << "move constructor is called" << endl;
+        std::cout << "move constructor is called" << std::endl;
 
         size_ = rhs.size_;
         sequence_ = rhs.sequence_;
@@ -75,16 +75,16 @@ class Points2D {
     // Move-assignment.
     // Just use std::swap() for all variables.
     Points2D& operator=(Points2D &&rhs){
-        cout << "move assignment is called" << endl;
+        std::cout << "move assignment is called" << std::endl;
         if(&rhs != this){
-        std::swap(size_, rhs.size_);
-        std::swap(sequence_, rhs.sequence_);
+            std::swap(size_, rhs.size_);
+            std::swap(sequence_, rhs.sequence_);
         }
         return *this;
     };
 
     ~Points2D(){
-        cout << "destructor is called" << endl;
+        std::cout << "destructor is called" << std::endl;
         delete[] sequence_;
     };
 
@@ -92,11 +92,15 @@ class Points2D {
 
     // One parameter constructor.
     Points2D(const std::array<T, 2>& item) {
-        // Provide code.
+        size_ = 1;                                  //  now we have one item added
+        
+        sequence_ = new std::array<T, 2>[size_];
+        sequence_[0] = item;                        //  the first element of the sequence_ array store the parameter value, item
+
     }
 
     size_t size() const {
-        // Code missing.
+        return size_;
     }
 
     // @location: an index to a location in the sequence.
@@ -104,7 +108,11 @@ class Points2D {
     // const version.
     // abort() if out-of-range.
     const std::array<T, 2>& operator[](size_t location) const {
-        // Code missing.
+        if(location < size_){
+            return sequence_[location];
+        }
+        cout << "out of range" << endl;
+        std::abort();
     }
 
     //  @c1: A sequence.
@@ -117,14 +125,29 @@ class Points2D {
 
     // Overloading the << operator.
     friend std::ostream &operator<<(std::ostream &out, const Points2D &some_points) {
-        // Code missing.
+        for (int i = 0; i < some_points.size_; i++){
+            out << "(" << some_points.sequence_[i][0] << ", " << some_points.sequence_[i][1] << ")";
+
+        return out;
+        }
     }
 
     // Overloading the >> operator.
     // Read a chain from an input stream (e.g., standard input).
     friend std::istream &operator>>(std::istream &in, Points2D &some_points) {
-        // Code missing.
+        std::size_t size;
+        in >> size;     //  inputing the size of the 2D array
+
+        some_points.size_ = size;
+        some_points.sequence_ = new std::array<T, 2>[size];
+
+        for(int i = 0; i < some_points.size_; i++){
+            in >> some_points.sequence_[i][0] >> some_points.sequence_[i][1];
+        }
+
+    return in;
     }
+
 
   private:
     // Sequence of points.
